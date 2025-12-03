@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Fire Model (Drossel–Schwabl)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="forest-fire-styles.css">
+</head>
+<body>
+    <!-- WRAPPER -->
+    <div id="sim-wrapper">
+        <h1>Forest Fire Model (Drossel–Schwabl)</h1>
+
+        <div class="controls-container">
+            <div class="control-group">
+                <label for="pSlider">Tree Growth Probability (p): <span id="pValue">0.01</span></label>
+                <input type="range" id="pSlider" min="0.001" max="0.1" step="0.001" value="0.01">
+            </div>
+            <div class="control-group">
+                <label for="fSlider">Lightning Strike Probability (f): <span id="fValue">0.00001</span></label>
+                <input type="range" id="fSlider" min="0.000001" max="0.001" step="0.000001" value="0.00001">
+            </div>
+            <div class="control-group">
+                <label for="speedSlider">Steps per Frame (Growth): <span id="speedValue">1000</span></label>
+                <input type="range" id="speedSlider" min="1" max="100000" step="1" value="1000">
+            </div>
+            <div class="control-group">
+                <label for="seedBox">Seed:</label>
+                <input type="number" id="seedBox" value="42">
+            </div>
+            <div class="action-buttons">
+                <button id="startButton">Start</button>
+                <button id="resetButton">Reset</button>
+            </div>
+            <div class="toggle-switch">
+                <input type="checkbox" id="animateToggle" checked>
+                <label for="animateToggle">Animate Fires (Pretty, but SLOW data)</label>
+            </div>
+        </div>
+
+        <div class="sim-container">
+            <canvas id="forestCanvas"></canvas>
+        </div>
+
+        <div class="stats-container">
+             <div class="stats-readouts">
+                 <h2>Live Statistics</h2>
+                 <p>Timesteps ($N_s$): <span id="timesteps">0</span></p>
+                 <p>Tree Count: <span id="treeCount">0</span></p>
+                 <p>Tree Density ($\rho$): <span id="treeDensity">0.00%</span></p>
+                 <p>Total Fires: <span id="totalFires">0</span></p>
+             </div>
+        </div>
+
+        <div id="plot1-container" class="plot-container">
+            <canvas id="logLogPlotCanvas"></canvas>
+        </div>
+    </div>
+    <!-- END WRAPPER -->
+
+    <script src="forest-fire-simulation.js"></script>
+</body>
+</html>
+

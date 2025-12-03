@@ -1,0 +1,417 @@
+/* Elegant Forest Fire Simulation - Dark Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+html {
+    overscroll-behavior-y: none;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0d0d0d;
+    color: #e8e8e8;
+}
+
+#sim-wrapper {
+    max-width: 100%;
+    margin: 0;
+    padding: 1.5em;
+    display: grid;
+    
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+        "header header"
+        "controls controls" 
+        "sim plot1"; 
+    gap: 1.5em;
+    
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Elegant Typography */
+#sim-wrapper h1, #sim-wrapper h2 { 
+    text-align: center; 
+    color: #f5f5f5; 
+    margin: 0; 
+    font-weight: 700;
+}
+
+#sim-wrapper h1 { 
+    grid-area: header; 
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    padding: 0.5em 0 0.3em;
+    position: relative;
+}
+
+#sim-wrapper h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #4a7c2c, transparent);
+}
+
+/* Refined Canvas Container */
+#sim-wrapper .sim-container {
+    grid-area: sim;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5em; 
+    box-sizing: border-box; 
+    background: #1a1a1a;
+    border-radius: 12px; 
+    border: 1px solid #2a2a2a;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 0;
+}
+
+#sim-wrapper .sim-container:hover {
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.5),
+        0 12px 32px rgba(0, 0, 0, 0.4);
+    border-color: #3a3a3a;
+}
+
+#sim-wrapper #forestCanvas {
+    image-rendering: pixelated; 
+    border: 1px solid #2a2a2a;
+    background-color: #000;
+    width: 100%; 
+    height: 100%;
+    max-width: 100%; 
+    max-height: 100%; 
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Sophisticated Controls Panel */
+#sim-wrapper .controls-container {
+    grid-area: controls;
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    gap: 1.25em;
+    padding: 1.25em 1.5em;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    max-height: 140px;
+}
+
+#sim-wrapper .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+}
+
+#sim-wrapper .control-group label {
+    font-weight: 500;
+    font-size: 0.85em;
+    color: #a8a8a8; 
+    text-align: left; 
+    letter-spacing: 0.2px;
+}
+
+#sim-wrapper .control-group label span {
+    color: #6fb346;
+    font-weight: 600;
+}
+
+/* Refined Range Sliders */
+#sim-wrapper .control-group input[type="range"] {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 100%;
+    height: 4px; 
+    background: #2a2a2a;
+    outline: none;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+}
+
+#sim-wrapper .control-group input[type="range"]:hover {
+    background: #333333;
+}
+
+#sim-wrapper .control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px; 
+    height: 16px; 
+    border-radius: 50%;
+    background: #6fb346;
+    cursor: pointer;
+    border: 2px solid #1a1a1a;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 4px 8px rgba(111, 179, 70, 0.25);
+    transition: all 0.2s ease;
+}
+
+#sim-wrapper .control-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.4),
+        0 6px 12px rgba(111, 179, 70, 0.35);
+}
+
+#sim-wrapper .control-group input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #6fb346;
+    cursor: pointer;
+    border: 2px solid #1a1a1a;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 4px 8px rgba(111, 179, 70, 0.25);
+    transition: all 0.2s ease;
+}
+
+#sim-wrapper .control-group input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.4),
+        0 6px 12px rgba(111, 179, 70, 0.35);
+}
+
+/* Clean Input Fields */
+#sim-wrapper .control-group input[type="number"], 
+#sim-wrapper .control-group input[type="text"] {
+    padding: 10px 14px;
+    border: 1px solid #2a2a2a;
+    background: #0d0d0d;
+    color: #e8e8e8;
+    border-radius: 8px;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+#sim-wrapper .control-group input[type="number"]:focus, 
+#sim-wrapper .control-group input[type="text"]:focus {
+    outline: none;
+    border-color: #6fb346;
+    background: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(111, 179, 70, 0.15);
+}
+
+/* Elegant Action Buttons */
+#sim-wrapper .action-buttons {
+    display: flex;
+    gap: 0.75em;
+    margin-top: 0.75em; 
+}
+
+#sim-wrapper .action-buttons button {
+    flex-grow: 1;
+    padding: 11px 20px;
+    font-size: 0.95em;
+    font-weight: 600;
+    border: 1px solid;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+}
+
+#startButton {
+    background: #6fb346;
+    color: #0d0d0d;
+    border-color: #6fb346;
+}
+
+#startButton:hover {
+    background: #7ec454;
+    border-color: #7ec454;
+    box-shadow: 0 4px 12px rgba(111, 179, 70, 0.3);
+    transform: translateY(-1px);
+}
+
+#startButton.running {
+    background: #d64545;
+    border-color: #d64545;
+    color: #ffffff;
+}
+
+#startButton.running:hover {
+    background: #e55555;
+    border-color: #e55555;
+    box-shadow: 0 4px 12px rgba(214, 69, 69, 0.35);
+}
+
+#resetButton {
+    background: #1a1a1a;
+    color: #e8e8e8;
+    border-color: #3a3a3a;
+}
+
+#resetButton:hover {
+    background: #242424;
+    border-color: #6fb346;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+}
+
+#sim-wrapper .action-buttons button:active {
+    transform: translateY(0);
+}
+
+/* Minimal Toggle */
+#sim-wrapper .toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+#sim-wrapper .toggle-switch label {
+    font-weight: 500;
+    margin: 0;
+    color: #a8a8a8;
+    font-size: 0.85em;
+}
+
+#sim-wrapper .toggle-switch input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #6fb346;
+}
+
+/* Hidden Stats */
+#sim-wrapper .stats-container {
+    display: none;
+}
+
+/* Refined Plot Container */
+#sim-wrapper .plot-container {
+    grid-area: plot1;
+    background: #1a1a1a;
+    padding: 1.5em;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 0;
+}
+
+#sim-wrapper .plot-container:hover {
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.5),
+        0 12px 32px rgba(0, 0, 0, 0.4);
+    border-color: #3a3a3a;
+}
+
+#plot1-container {
+    grid-area: plot1;
+}
+
+#sim-wrapper .plot-container canvas {
+    flex-grow: 1;
+    min-height: 0;
+    border-radius: 8px;
+}
+
+/* Elegant Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 5px;
+    border: 2px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4a4a4a;
+}
+
+/* Responsive Layout */
+@media (max-width: 1000px) {
+    #sim-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr 1fr;
+        grid-template-areas: "header" "controls" "sim" "plot1";
+        padding: 1.5em 1em;
+        gap: 1.5em;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    #sim-wrapper h1 {
+        font-size: 2em;
+        padding: 0.3em 0 0.2em;
+    }
+    
+    #sim-wrapper .sim-container,
+    #sim-wrapper .plot-container {
+        min-height: 400px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+    
+    #sim-wrapper .controls-container {
+        max-height: none;
+        padding: 1.25em;
+    }
+
+    #sim-wrapper .control-group label {
+        text-align: center;
+    }
+    
+    #sim-wrapper .toggle-switch {
+        justify-content: center;
+    }
+}
+
+/* Subtle fade-in on load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#sim-wrapper > * {
+    animation: fadeIn 0.6s ease-out backwards;
+}
+
+#sim-wrapper > *:nth-child(1) { animation-delay: 0.05s; }
+#sim-wrapper > *:nth-child(2) { animation-delay: 0.15s; }
+#sim-wrapper > *:nth-child(3) { animation-delay: 0.25s; }
+#sim-wrapper > *:nth-child(4) { animation-delay: 0.35s; }
