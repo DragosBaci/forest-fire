@@ -364,59 +364,57 @@ body {
     background: #4a4a4a;
 }
 
-/* Tablet Layout */
-@media (max-width: 1200px) {
-    #sim-wrapper h1 {
-        font-size: 2em;
-    }
-}
-
-/* Mobile Layout */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-    
+/* Tablet and below - force proper layout */
+@media (max-width: 1024px) {
     #sim-wrapper {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto 1fr 1fr;
-        grid-template-areas: "header" "controls" "sim" "plot1";
-        padding: 1em;
-        gap: 1em;
-        height: auto;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto auto auto !important;
+        grid-template-areas: "header" "controls" "sim" "plot1" !important;
+        height: auto !important;
         min-height: 100vh;
+        padding: 16px;
+        gap: 16px;
     }
     
     #sim-wrapper h1 {
-        font-size: 1.75rem;
-        padding: 0.3em 0 0.2em;
-    }
-    
-    #sim-wrapper .sim-container,
-    #sim-wrapper .plot-container {
-        min-height: 350px;
-        height: auto;
-        aspect-ratio: 1 / 1;
-        padding: 1em;
+        font-size: 28px !important;
+        padding: 8px 0 !important;
     }
     
     #sim-wrapper .controls-container {
-        max-height: none;
-        padding: 1em;
-        grid-template-columns: 1fr;
-    }
-
-    #sim-wrapper .control-group {
-        gap: 0.5em;
-    }
-
-    #sim-wrapper .control-group label {
-        text-align: left;
-        font-size: 0.95rem;
+        max-height: none !important;
+        padding: 16px !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
     }
     
-    #sim-wrapper .control-group input[type="number"] {
-        font-size: 1rem;
+    #sim-wrapper .control-group {
+        width: 100%;
+        gap: 8px;
+    }
+    
+    #sim-wrapper .control-group label {
+        font-size: 14px !important;
+        text-align: left !important;
+    }
+    
+    #sim-wrapper .control-group input[type="number"],
+    #sim-wrapper .control-group input[type="text"] {
+        font-size: 16px !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    #sim-wrapper .action-buttons {
+        flex-direction: row !important;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    #sim-wrapper .action-buttons button {
+        font-size: 16px !important;
+        padding: 14px 20px !important;
+        flex: 1;
     }
     
     #sim-wrapper .toggle-switch {
@@ -424,40 +422,47 @@ body {
     }
     
     #sim-wrapper .toggle-switch label {
-        font-size: 0.95rem;
-    }
-    
-    #sim-wrapper .action-buttons {
-        flex-direction: column;
-        gap: 0.75em;
-    }
-    
-    #sim-wrapper .action-buttons button {
-        font-size: 1rem;
-        padding: 12px 20px;
-        width: 100%;
-    }
-}
-
-/* Small Mobile */
-@media (max-width: 480px) {
-    #sim-wrapper {
-        padding: 0.75em;
-        gap: 0.75em;
-    }
-    
-    #sim-wrapper h1 {
-        font-size: 1.5rem;
+        font-size: 14px !important;
     }
     
     #sim-wrapper .sim-container,
     #sim-wrapper .plot-container {
-        min-height: 280px;
-        padding: 0.75em;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 300px !important;
+        aspect-ratio: 1 / 1 !important;
+        padding: 16px !important;
+        margin: 0 !important;
+    }
+    
+    #sim-wrapper #forestCanvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+    #sim-wrapper {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    #sim-wrapper h1 {
+        font-size: 24px !important;
     }
     
     #sim-wrapper .controls-container {
-        padding: 0.75em;
+        padding: 12px !important;
+    }
+    
+    #sim-wrapper .sim-container,
+    #sim-wrapper .plot-container {
+        min-height: 250px !important;
+        padding: 12px !important;
     }
 }
 
